@@ -9,12 +9,10 @@ class App extends React.Component {
 
   }
   componentDidMount() {
-    var searchResults = [];
     this.props.searchYouTube({q: 'react tutorials'}, (data) => {
-      searchResults = data;
-    });
-    this.setState({
-      videos: searchResults
+      this.setState({
+        videos: data
+      }); 
     });
   }
 
@@ -24,10 +22,19 @@ class App extends React.Component {
     });
   }
 
+  handleUserSearch(query) {  
+    this.props.searchYouTube({q: query}, (data) => {
+      console.log('fired');
+      this.setState({
+        videos: data
+      }); 
+    });
+  }
+
   render() {
     return (
       <div>
-        <Nav />
+        <Nav onSearch={this.handleUserSearch.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video={this.state.currentVideo} />
         </div>
